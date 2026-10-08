@@ -1,0 +1,65 @@
+name: Normalize publication meta descriptions
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/normalize-publication-meta.yml'
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Normalize descriptions
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          changes = {
+            'publications/tactical-atfm-reinforcement-learning/index.html': (
+              'Transport Policy article on model-free reinforcement learning for tactical ATFM, runway capacity and miles-in-trail control under uncertainty at São Paulo/Guarulhos.',
+              'Transport Policy article on reinforcement learning for tactical ATFM, runway capacity, and miles-in-trail control under uncertainty at São Paulo/Guarulhos.'
+            ),
+            'publications/runway-capacity-reinforcement-learning/index.html': (
+              'Transportation Research Part A article on model-free reinforcement learning for runway configuration and service-rate allocation under operational and weather uncertainty.',
+              'Transportation Research Part A article on reinforcement learning for runway configuration and service-rate allocation under operational uncertainty.'
+            ),
+            'publications/runway-configuration-forecasting/index.html': (
+              'Accepted Journal of Air Transport Management paper on multi-horizon runway-configuration forecasting at São Paulo/Guarulhos using strict temporal validation and transition-warning metrics.',
+              'Accepted JATM paper on multi-horizon runway-configuration forecasting at São Paulo/Guarulhos with temporal validation and transition-warning metrics.'
+            ),
+            'publications/uam-network-planning/index.html': (
+              'Case Studies on Transport Policy article on data-driven UAM network planning in São Paulo integrating demand, socioeconomic factors, vertiport siting and route design.',
+              'Case Studies on Transport Policy article on UAM network planning in São Paulo integrating demand, socioeconomic factors, vertiport siting, and routes.'
+            ),
+            'publications/evtol-emissions-carbon-credits/index.html': (
+              'Case Studies on Transport Policy article on avoided emissions and potential carbon credits from helicopter-to-eVTOL substitution in São Paulo using BlueSky simulation.',
+              'Case Studies on Transport Policy article on avoided emissions and potential carbon credits from helicopter-to-eVTOL substitution in São Paulo.'
+            ),
+            'publications/bnn-flight-delay/index.html': (
+              'IEEE Access article on Bayesian neural networks for probabilistic arrival-delay and flight-time-deviation prediction with uncertainty quantification on the SBRF–SBGR route.',
+              'IEEE Access article on Bayesian neural networks for probabilistic arrival-delay and flight-time prediction with uncertainty on the SBRF–SBGR route.'
+            ),
+            'publications/actual-takeoff-weight-ml/index.html': (
+              'Journal of Open Aviation Science article on open machine-learning models for commercial-flight actual takeoff weight prediction, developed from the PRC Data Challenge 2024 second-place solution.',
+              'Journal of Open Aviation Science article on machine-learning models for actual takeoff weight prediction using large-scale operational aviation data.'
+            ),
+          }
+
+          for path, (old, new) in changes.items():
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              marker_old = f'<meta name="description" content="{old}">'
+              marker_new = f'<meta name="description" content="{new}">'
+              if marker_old not in text:
+                  raise SystemExit(f'Expected meta description not found in {path}')
+              p.write_text(text.replace(marker_old, marker_new, 1), encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publications
+          git commit -m "Normalize publication meta descriptions for Bing SEO"
+          git push

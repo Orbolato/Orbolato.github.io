@@ -1,5 +1,6 @@
 name: IndexNow
 
+# Runs only after a successful GitHub Pages deployment, so submitted URLs are already live.
 on:
   workflow_run:
     workflows: ["pages build and deployment"]

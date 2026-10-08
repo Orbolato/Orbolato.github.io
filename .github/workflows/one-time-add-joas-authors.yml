@@ -1,0 +1,33 @@
+name: One-time add JOAS authors
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-homepage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add full author list to JOAS paper
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          old = '<article class="paper"><h3>Open Machine Learning Models for Actual Takeoff Weight Prediction</h3><div class="meta">Journal of Open Aviation Science, 2025.</div>'
+          new = '<article class="paper"><h3>Open Machine Learning Models for Actual Takeoff Weight Prediction</h3><div class="meta">Mayara Condé Rocha Murça; Marcos Ricardo Omena de Albuquerque Maximo; João Paulo de Andrade Dantas; João Basílio Tarelho Szenczuk; Carolina Rutili de Lima; Lucas Orbolato Carvalho; Gabriel Adriano de Melo. Journal of Open Aviation Science, 2025.</div>'
+          if old not in text:
+              raise SystemExit('Expected JOAS entry not found')
+          p.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Commit homepage update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add authors to JOAS takeoff-weight paper"
+          git push

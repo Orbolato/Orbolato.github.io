@@ -1,0 +1,29 @@
+name: IndexNow
+
+on:
+  workflow_run:
+    workflows: ["pages build and deployment"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Submit recent sitemap URLs to IndexNow
+        uses: bojieyang/indexnow-action@v3
+        with:
+          sitemap-location: 'https://orbolato.github.io/sitemap.xml'
+          key: 'c8977f22b2dfe13d34cc29fb24d52e8e593d5574'
+          key-location: 'https://orbolato.github.io/c8977f22b2dfe13d34cc29fb24d52e8e593d5574.txt'
+          endpoint: 'api.indexnow.org'
+          since: '2'
+          since-unit: 'day'
+          limit: '100'
+          timeout: '20000'
+          failure-strategy: 'error'
+          lastmod-required: 'true'

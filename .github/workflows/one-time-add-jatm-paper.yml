@@ -1,0 +1,36 @@
+name: One-time add accepted JATM paper
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-homepage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add accepted JATM paper to analytics section
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          marker = '<section class="section" id="analytics"><h2>Aviation analytics and probabilistic modeling</h2>\n'
+          entry = '''<article class="paper"><h3>When Do Data-Driven Models Improve Runway-Configuration Forecasts? Multi-Horizon Operational Evidence from São Paulo/Guarulhos</h3><div class="meta">Gabriel Luiz Goulart Rufino Vieira; Igor Galhano Gomes; Lucas Orbolato Carvalho; Marcelo Xavier Guterres; Evandro José da Silva; Mauro Caetano. Journal of Air Transport Management, accepted, 2026.</div><p>Multi-horizon runway-configuration forecasting at São Paulo/Guarulhos, testing when data-driven models improve on strong persistence and wind-rule baselines under strict temporal validation, with transition-focused warning metrics at 15, 30, and 60 minutes.</p><div class="tags">runway configuration | machine learning | forecasting | airport operations | decision support | SBGR</div></article>\n'''
+          if marker not in text:
+              raise SystemExit('Analytics section marker not found')
+          if 'When Do Data-Driven Models Improve Runway-Configuration Forecasts?' in text:
+              raise SystemExit('JATM paper already present')
+          text = text.replace(marker, marker + entry, 1)
+          p.write_text(text, encoding='utf-8')
+          PY
+      - name: Commit homepage update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add accepted JATM runway-configuration paper"
+          git push

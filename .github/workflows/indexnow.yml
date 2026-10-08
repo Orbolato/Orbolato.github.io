@@ -26,8 +26,8 @@ jobs:
         uses: bojieyang/indexnow-action@v3
         with:
           sitemap-location: 'https://orbolato.github.io/sitemap.xml'
-          key: 'c8977f22b2dfe13d34cc29fb24d52e8e593d5574'
-          key-location: 'https://orbolato.github.io/c8977f22b2dfe13d34cc29fb24d52e8e593d5574.txt'
+          key: '58383cd92afb496ba9bde0cd4d56a27d'
+          key-location: 'https://orbolato.github.io/58383cd92afb496ba9bde0cd4d56a27d.txt'
           endpoint: 'api.indexnow.org'
           since: '2'
           since-unit: 'day'

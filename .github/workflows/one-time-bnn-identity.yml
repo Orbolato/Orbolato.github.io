@@ -1,0 +1,35 @@
+name: One-time BNN identity metadata
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add ORCID and Scholar to BNN page
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('publications/bnn-flight-delay/index.html')
+          text=p.read_text(encoding='utf-8')
+          pairs=[
+            ('<link rel="canonical" href="https://orbolato.github.io/publications/bnn-flight-delay/">','<link rel="canonical" href="https://orbolato.github.io/publications/bnn-flight-delay/">\n<link rel="me" href="https://orcid.org/0000-0002-8402-5832">'),
+            ('{"@type":"Person","name":"Lucas Orbolato Carvalho","url":"https://orbolato.github.io/"},','{"@type":"Person","name":"Lucas Orbolato Carvalho","url":"https://orbolato.github.io/","sameAs":["https://orcid.org/0000-0002-8402-5832","https://scholar.google.com/citations?user=UQdgiPMAAAAJ&hl=en"]},'),
+            ('<a class="button" href="https://orbolato.github.io/">Author homepage</a>','<a class="button" href="https://orbolato.github.io/">Author homepage</a>\n<a class="button" href="https://orcid.org/0000-0002-8402-5832" target="_blank" rel="me noopener noreferrer">ORCID</a>\n<a class="button" href="https://scholar.google.com/citations?user=UQdgiPMAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>')
+          ]
+          for old,new in pairs:
+              if old not in text:
+                  raise SystemExit('Expected BNN fragment not found')
+              text=text.replace(old,new,1)
+          p.write_text(text,encoding='utf-8')
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publications/bnn-flight-delay/index.html
+          git commit -m "Add ORCID and Scholar to BNN paper page"
+          git push

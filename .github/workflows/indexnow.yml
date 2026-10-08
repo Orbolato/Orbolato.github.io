@@ -1,10 +1,15 @@
 name: IndexNow
 
-# Runs only after a successful GitHub Pages deployment, so submitted URLs are already live.
+# Submit recently changed sitemap URLs after relevant site updates.
+# Keep sitemap <lastmod> dates current when publication pages are edited.
 on:
-  workflow_run:
-    workflows: ["pages build and deployment"]
-    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'publications/**'
+      - 'sitemap.xml'
+      - '.github/workflows/indexnow.yml'
   workflow_dispatch:
 
 permissions:
@@ -12,9 +17,11 @@ permissions:
 
 jobs:
   submit:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Allow GitHub Pages deployment to finish
+        run: sleep 45
+
       - name: Submit recent sitemap URLs to IndexNow
         uses: bojieyang/indexnow-action@v3
         with:

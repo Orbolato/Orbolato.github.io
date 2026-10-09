@@ -1,0 +1,41 @@
+name: Add dashboard authors
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-dashboard-authors.yml'
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add dashboard author attribution
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+
+          old_airspace = '    <p>An interactive 3D airspace-corridor designer for Urban Air Mobility. The dashboard supports geographic and three-dimensional visualization of corridor networks, route and node exploration, CSV data import, and interactive route management for UAM airspace-design studies.</p>\n    <div class="tags">UAM | airspace design | 3D corridors | route networks | BlueSky</div>'
+          new_airspace = '    <p>An interactive 3D airspace-corridor designer for Urban Air Mobility. The dashboard supports geographic and three-dimensional visualization of corridor networks, route and node exploration, CSV data import, and interactive route management for UAM airspace-design studies.</p>\n    <p class="small"><strong>Authors:</strong> Lucas Orbolato Carvalho; Mayara Condé Rocha Murça.</p>\n    <div class="tags">UAM | airspace design | 3D corridors | route networks | BlueSky</div>'
+          if old_airspace not in text:
+              raise SystemExit('UAM Corridor Design Dashboard block not found')
+          text = text.replace(old_airspace, new_airspace, 1)
+
+          old_metrics = '    <p>An interactive performance-analysis environment for simulated UAM corridor scenarios in the São Paulo Metropolitan Region. Built from BlueSky simulation outputs, it organizes performance assessment across safety, efficiency, capacity, predictability, and equity, with comparative metrics, maps, conflict information, critical-waypoint analysis, and three-dimensional trajectory visualization.</p>\n    <div class="tags">UAM | performance evaluation | safety | capacity | predictability | equity</div>'
+          new_metrics = '    <p>An interactive performance-analysis environment for simulated UAM corridor scenarios in the São Paulo Metropolitan Region. Built from BlueSky simulation outputs, it organizes performance assessment across safety, efficiency, capacity, predictability, and equity, with comparative metrics, maps, conflict information, critical-waypoint analysis, and three-dimensional trajectory visualization.</p>\n    <p class="small"><strong>Authors:</strong> Danilo de Farias Matos; Lucas Orbolato Carvalho; Mayara Condé Rocha Murça.</p>\n    <div class="tags">UAM | performance evaluation | safety | capacity | predictability | equity</div>'
+          if old_metrics not in text:
+              raise SystemExit('UAM Performance Evaluation Dashboard block not found')
+          text = text.replace(old_metrics, new_metrics, 1)
+
+          p.write_text(text, encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add dashboard author attribution"
+          git push

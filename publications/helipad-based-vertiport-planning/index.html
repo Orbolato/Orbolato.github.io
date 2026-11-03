@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<title>Helipad-Based Vertiport Infrastructure Planning in São Paulo | Lucas Orbolato Carvalho</title>
+<meta name="description" content="A multi-scale São Paulo vertiport planning study: capacitated location optimization, exact benchmarks, VNS and relay stochastic search, spatial sensitivity, and reproducible computational artifacts.">
+<meta name="citation_title" content="Planning vertiport infrastructure from existing helipad sites: A multi-scale case study in São Paulo State">
+<meta name="citation_author" content="Rodrigo Mollo Furlan"><meta name="citation_author" content="Lucas Orbolato Carvalho"><meta name="citation_author" content="Marcelo Xavier Guterres"><meta name="citation_author" content="Anderson Ribeiro Correia">
+<meta name="citation_journal_title" content="Case Studies on Transport Policy"><meta name="citation_language" content="en">
+<link rel="canonical" href="https://orbolato.github.io/publications/helipad-based-vertiport-planning/">
+<meta property="og:type" content="article"><meta property="og:title" content="Planning vertiport infrastructure from existing helipad sites">
+<meta property="og:description" content="Exact and stochastic capacitated location screening across three São Paulo planning scales, with code and derived research data.">
+<meta property="og:url" content="https://orbolato.github.io/publications/helipad-based-vertiport-planning/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Planning vertiport infrastructure from existing helipad sites: A multi-scale case study in São Paulo State","inLanguage":"en","dateCreated":"2026","url":"https://orbolato.github.io/publications/helipad-based-vertiport-planning/","author":[{"@type":"Person","name":"Rodrigo Mollo Furlan"},{"@type":"Person","name":"Lucas Orbolato Carvalho","url":"https://orbolato.github.io/","sameAs":"https://orcid.org/0000-0002-8402-5832"},{"@type":"Person","name":"Marcelo Xavier Guterres"},{"@type":"Person","name":"Anderson Ribeiro Correia"}],"isPartOf":{"@type":"Periodical","name":"Case Studies on Transport Policy"},"keywords":["Urban Air Mobility","vertiports","capacitated facility location","São Paulo","variable neighborhood search","geospatial analysis"],"codeRepository":"https://github.com/Orbolato/Helipad-Based-Vertiport-Planning"}</script>
+<style>
+:root{--blue:#075985;--deep:#064d72;--ink:#172a36;--muted:#5e707b;--line:#d8e6ec;--pale:#eff8fb;--white:#fff}*{box-sizing:border-box}
+body{margin:0;background:#f8fbfc;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6}
+a{color:var(--blue)}.wrap{width:min(1020px,calc(100% - 36px));margin:auto}
+.hero{background:radial-gradient(circle at 86% 15%,#ffffff19,transparent 21rem),linear-gradient(120deg,#064d72,#0b789c);color:white;padding:50px 0 56px}
+.hero a{color:#fff}.crumb{font-size:.9rem;opacity:.92;margin-bottom:22px}.tag{display:inline-block;border:1px solid #ffffff70;padding:5px 12px;border-radius:99px;font-weight:700;font-size:.82rem;background:#ffffff12}
+h1{font-size:clamp(2rem,4.8vw,3.55rem);line-height:1.14;letter-spacing:-.035em;max-width:960px;margin:19px 0 19px}
+.subtitle{font-size:1.07rem;max-width:890px}.authors{font-weight:750;margin-top:22px}.affil{opacity:.85;font-size:.94rem;margin-top:4px}
+.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}.button{display:inline-flex;align-items:center;padding:11px 16px;background:white;border:1px solid white;color:var(--blue)!important;border-radius:10px;font-weight:750;text-decoration:none}.button.ghost{background:transparent;color:white!important;border-color:#ffffff85}
+main{padding:26px 0 54px}.section{background:white;border:1px solid var(--line);border-radius:18px;padding:clamp(20px,3vw,34px);margin:18px 0;box-shadow:0 10px 28px #12394b0b}
+h2{font-size:1.48rem;margin:0 0 12px;color:var(--blue);letter-spacing:-.02em}h3{font-size:1.06rem;margin:14px 0 5px;color:var(--blue)}p{margin:0 0 13px}p:last-child{margin-bottom:0}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0 7px}
+.metric{background:var(--pale);border:1px solid #d1e7ef;border-radius:13px;padding:17px}.metric b{display:block;color:var(--blue);font-size:1.65rem;line-height:1.1;margin-bottom:6px}.metric span{font-size:.87rem;color:#3a5a6a}
+.table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:10px 0 15px;font-size:.95rem}th{text-align:left;background:var(--pale);color:#21495b}td,th{padding:12px 13px;border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.note{background:var(--pale);border-left:4px solid var(--blue);padding:16px 18px;border-radius:0 10px 10px 0}
+.bars{max-width:720px}.bar{display:grid;grid-template-columns:205px 1fr 64px;gap:12px;align-items:center;margin:13px 0}.track{background:#e6eff3;height:20px;border-radius:6px;overflow:hidden}.fill{height:100%;background:var(--blue);border-radius:6px}.fill.gray{background:#9aadb9}.bar strong{text-align:right;font-variant-numeric:tabular-nums}
+.small{font-size:.88rem;color:var(--muted)}footer{color:var(--muted);padding:5px 0 35px;font-size:.9rem}
+@media(max-width:750px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}.bar{grid-template-columns:1fr}.bar strong{text-align:left}.hero{padding:34px 0 42px}}
+@media(max-width:430px){.metrics{grid-template-columns:1fr}.button{width:100%;justify-content:center}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+<div class="crumb"><a href="/">Research homepage</a> / <a href="/publications/">Publications</a> / Vertiport infrastructure planning</div>
+<span class="tag">Accepted research article · Case Studies on Transport Policy · 2026</span>
+<h1>Planning vertiport infrastructure from existing helipad sites: A multi-scale case study in São Paulo State</h1>
+<div class="subtitle">Can an existing helipad inventory support strategic planning of urban air mobility ground infrastructure across different geographic scales?</div>
+<div class="authors">Rodrigo Mollo Furlan · Lucas Orbolato Carvalho · Marcelo Xavier Guterres · Anderson Ribeiro Correia</div>
+<div class="affil">Aeronautics Institute of Technology (ITA), São José dos Campos, Brazil</div>
+<div class="links"><a class="button" href="https://github.com/Orbolato/Helipad-Based-Vertiport-Planning">Research repository</a><a class="button ghost" href="https://github.com/Orbolato/Helipad-Based-Vertiport-Planning/blob/main/CITATION.cff">Citation metadata</a><a class="button ghost" href="/publications/">All publications</a></div>
+</div></header>
+<main class="wrap">
+<section class="section"><h2>Study at a glance</h2>
+<p>A capacitated location model evaluates registered helipads as candidate vertiport sites in São Paulo, Campinas, Guarulhos, and across São Paulo State. The screening jointly considers population-weighted planning demand, candidate site capacities, geometric access restrictions, a minimum candidate-reachable area target, and a soft spacing preference. Exact optimization is used at smaller scales; variable neighborhood search (VNS) and an SMA-inspired binary search/VNS relay support statewide screening.</p>
+<div class="metrics"><div class="metric"><b>609</b><span>Statewide registered candidate sites</span></div><div class="metric"><b>250,827</b><span>Statewide spatial grid cells</span></div><div class="metric"><b>166–169</b><span>Sites in feasible statewide relay runs</span></div><div class="metric"><b>44 / 45</b><span>Feasible demand-intensity scenarios</span></div></div></section>
+<section class="section"><h2>Site requirements by planning context</h2>
+<div class="table-scroll"><table><thead><tr><th>Context</th><th>Candidate sites</th><th>Optimization result</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>São Paulo municipality</td><td>185</td><td>4 selected sites</td><td>Proven exact optimum under municipal thresholds</td></tr>
+<tr><td>São Paulo, Campinas, and Guarulhos</td><td>222</td><td>13 selected sites</td><td>Proven exact optimum for pooled three-city constraints</td></tr>
+<tr><td>São Paulo State</td><td>609</td><td>166–169 selected sites</td><td>Five feasible stochastic relay solutions; no exact statewide optimum computed</td></tr>
+</tbody></table></div>
+<p class="small">These scenarios use distinct demand intensities, access radii, coverage floors, and geographic supports. Selected-site counts should not be interpreted as a controlled measure of scale effects.</p></section>
+<section class="section"><h2>Reachable coverage is not statewide coverage</h2>
+<p>All five statewide relay runs satisfied the target covering roughly 80% of the area geometrically reachable from the entire candidate inventory. However, the selected sites covered only about 14.34% of the total state grid area within the assumed 10-km territorial radius.</p>
+<div class="bars"><div class="bar"><span>Candidate-reachable territory</span><div class="track"><div class="fill" style="width:80%"></div></div><strong>~80%</strong></div>
+<div class="bar"><span>Total state grid area</span><div class="track"><div class="fill gray" style="width:14.34%"></div></div><strong>14.34%</strong></div></div>
+<div class="note">The distinction is central to the policy interpretation: satisfying a candidate-relative coverage target does not imply that most of the state can be reached. Additional sites or different assumptions would be required for broader geographic coverage.</div></section>
+<section class="section"><h2>Sensitivity and practical implications</h2><div class="grid">
+<div><h3>Demand and spatial representation</h3><p>The study varies demand intensity across five seeds and tests concentrated versus dispersed population-weighted demand. Grid subdivision (1 km, 500 m, and 250 m) and boundary-distance diagnostics show that configurations near coverage thresholds can change feasibility under different spatial representations.</p></div>
+<div><h3>Optimization and implementation</h3><p>Exact optimization was practical for the municipal and pooled regional cases. Statewide stochastic search enables computational screening, but a five-seed comparison does not establish uniform superiority of the relay approach over VNS. Helipad registration alone does not establish ownership, site suitability, charging capacity, airspace feasibility, or service readiness.</p></div></div></section>
+<section class="section"><h2>Code, data, and reproducibility</h2>
+<p>The author-provided computational package contains the location model, search algorithms, saved site selections and allocations, derived ANAC/IBGE inputs, spatial sensitivity experiments, and generated tables and figures. The repository documents the exact reproduction scope, dependencies, data provenance, and the boundaries of independent verification.</p>
+<p><a href="https://github.com/Orbolato/Helipad-Based-Vertiport-Planning">View the public research repository</a> · <a href="https://github.com/Orbolato/Helipad-Based-Vertiport-Planning/blob/main/PROVENANCE.md">Read provenance and reproducibility notes</a></p>
+<p class="small">This is an author-provided research artifact and not a formally publisher-hosted supplementary package. The final article DOI and publication metadata will be added once assigned. The final publisher proof is not distributed here.</p></section>
+<section class="section"><h2>Suggested citation</h2>
+<p>Furlan, R. M., Carvalho, L. O., Guterres, M. X., and Correia, A. R. (2026). <em>Planning vertiport infrastructure from existing helipad sites: A multi-scale case study in São Paulo State</em>. <em>Case Studies on Transport Policy</em>. Accepted for publication.</p>
+<p class="small">The citation will be updated with the DOI, volume, and article number following publication.</p></section>
+</main>
+<footer class="wrap"><a href="/">Research homepage</a> · <a href="/publications/">Publications</a> · <a href="https://orcid.org/0000-0002-8402-5832">ORCID</a></footer>
+</body></html>

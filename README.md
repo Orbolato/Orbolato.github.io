@@ -21,7 +21,7 @@ Civil-Aeronautical Engineer and researcher at the Aeronautics Institute of Techn
 - **Exposure-adjusted monitoring of flight cancellations for service-reliability governance: A Brazilian case study with a cross-country replication** — *Case Studies on Transport Policy* (2026). DOI: https://doi.org/10.1016/j.cstp.2026.102001
 - **Stochastic Strategic Demand-Capacity Balancing Using Model-Free Reinforcement Learning** — 45th Digital Avionics Systems Conference (DASC), 2026.
 
-- **Planning vertiport infrastructure from existing helipad sites: A multi-scale case study in São Paulo State** — *Case Studies on Transport Policy* (accepted, 2026). [Paper page](https://orbolato.github.io/publications/helipad-based-vertiport-planning/) · [Research repository](https://github.com/Orbolato/Helipad-Based-Vertiport-Planning).
+- **Planning vertiport infrastructure from existing helipad sites: A multi-scale case study in São Paulo State** — *Case Studies on Transport Policy*, 2026, article 102000. DOI: https://doi.org/10.1016/j.cstp.2026.102000. [Paper page](https://orbolato.github.io/publications/helipad-based-vertiport-planning/) · [Research repository](https://github.com/Orbolato/Helipad-Based-Vertiport-Planning).
 
 ## Open-source software
 
